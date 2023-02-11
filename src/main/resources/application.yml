@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cdu
+    username: postgres
+    password: postgres
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+  jpa:
+    properties:
+      hibernate:
+        type:
+          json_format_mapper: "eu.wilkolek.eventdrivencrud.config.JacksonJsonFormatMapperCustom"
+
+
