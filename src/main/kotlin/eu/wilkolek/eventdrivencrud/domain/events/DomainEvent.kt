@@ -17,5 +17,7 @@ import java.time.OffsetDateTime
     JsonSubTypes.Type(value = ProjectNameChangedEvent::class, name = "ProjectNameChangedEvent"),
     JsonSubTypes.Type(value = TaskCreatedEvent::class, name = "TaskCreatedEvent"),
     JsonSubTypes.Type(value = TaskStatusChangedEvent::class, name = "TaskStatusChangedEvent"),
+    JsonSubTypes.Type(value = ProjectTaskCountIncreasedEvent::class, name = "ProjectTaskCountIncreasedEvent"),
+
 )
 abstract class DomainEvent(val createdAt: OffsetDateTime = OffsetDateTime.now())

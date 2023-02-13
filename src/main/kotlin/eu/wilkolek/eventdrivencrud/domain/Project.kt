@@ -24,7 +24,7 @@ class Project private constructor() : Aggregate("PROJECT"){
 
     fun onExternalEvents(event: DomainEvent) {
         when(event) {
-            is ProjectCreatedEvent -> {
+            is TaskCreatedEvent -> {
                 addAndApply(ProjectTaskCountIncreasedEvent(slug))
             }
         }
