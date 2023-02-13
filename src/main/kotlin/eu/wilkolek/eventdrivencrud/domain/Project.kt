@@ -3,6 +3,7 @@ package eu.wilkolek.eventdrivencrud.domain
 import eu.wilkolek.eventdrivencrud.domain.events.DomainEvent
 import eu.wilkolek.eventdrivencrud.domain.events.ProjectCreatedEvent
 import eu.wilkolek.eventdrivencrud.domain.events.ProjectNameChangedEvent
+import eu.wilkolek.eventdrivencrud.domain.events.ProjectTaskCountIncreasedEvent
 import eu.wilkolek.eventdrivencrud.domain.events.TaskCreatedEvent
 import eu.wilkolek.eventdrivencrud.domain.events.TaskStatusChangedEvent
 
@@ -10,7 +11,7 @@ class Project private constructor() : Aggregate("PROJECT"){
     var slug: String = ""
     var name: String = ""
     var description: String = ""
-    val tasks = mutableListOf<Task>()
+    var taskCount = 0
 
     override val aggregateId: String
         get() = slug
@@ -21,13 +22,12 @@ class Project private constructor() : Aggregate("PROJECT"){
         addAndApply(ProjectNameChangedEvent(slug, newName))
     }
 
-    fun createTask(title: String) {
-        addAndApply(TaskCreatedEvent("$slug-${tasks.size+1}", title))
-    }
-
-    fun changeTaskStatus(taskSlug: String, newStatus: Task.Status) {
-        checkNotNull(tasks.find { it.slug == taskSlug })
-        addAndApply(TaskStatusChangedEvent(taskSlug, newStatus))
+    fun onExternalEvents(event: DomainEvent) {
+        when(event) {
+            is ProjectCreatedEvent -> {
+                addAndApply(ProjectTaskCountIncreasedEvent(slug))
+            }
+        }
     }
 
     override fun apply(event: DomainEvent) {
@@ -40,11 +40,8 @@ class Project private constructor() : Aggregate("PROJECT"){
             is ProjectNameChangedEvent -> {
                 this.name = event.newName
             }
-            is TaskCreatedEvent -> {
-                this.tasks.add(Task(event.slug, event.title))
-            }
-            is TaskStatusChangedEvent -> {
-                this.tasks.find { it.slug == event.slug }!!.status = event.newStatus
+            is ProjectTaskCountIncreasedEvent -> {
+                this.taskCount++
             }
         }
     }
