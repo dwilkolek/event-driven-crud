@@ -9,6 +9,7 @@ import eu.wilkolek.eventdrivencrud.domain.events.TaskStatusChangedEvent
 class Project private constructor() : Aggregate("PROJECT"){
     var slug: String = ""
     var name: String = ""
+    var mdmId: Long = -1L
     var description: String = ""
     val tasks = mutableListOf<Task>()
 
@@ -36,6 +37,7 @@ class Project private constructor() : Aggregate("PROJECT"){
                 this.slug = event.slug
                 this.name = event.name
                 this.description = event.description
+                this.mdmId = event.mdmId
             }
             is ProjectNameChangedEvent -> {
                 this.name = event.newName
@@ -60,10 +62,13 @@ class Project private constructor() : Aggregate("PROJECT"){
         fun create(
             name: String,
             description: String,
-            slug: String
+            slug: String,
+            mdmId: Long,
+            reservationService: ReservationService
         ): Project {
             val project = Project()
-            project.addAndApply(ProjectCreatedEvent(slug, name, description))
+            reservationService.reserveMdmIdOrThrow(mdmId)
+            project.addAndApply(ProjectCreatedEvent(slug, name, description, mdmId))
             return project
         }
 

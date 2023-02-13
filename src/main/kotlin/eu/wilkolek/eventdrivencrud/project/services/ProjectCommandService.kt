@@ -1,6 +1,7 @@
 package eu.wilkolek.eventdrivencrud.project.services
 
 import eu.wilkolek.eventdrivencrud.domain.Project
+import eu.wilkolek.eventdrivencrud.domain.ReservationService
 import eu.wilkolek.eventdrivencrud.es.EventSourceService
 import eu.wilkolek.eventdrivencrud.domain.events.ProjectCreatedEvent
 import eu.wilkolek.eventdrivencrud.domain.events.ProjectNameChangedEvent
@@ -14,12 +15,13 @@ import java.util.*
 
 @Service
 class ProjectCommandService(
+    private val reservationService: ReservationService,
     private val eventSourceService: EventSourceService,
 ) {
 
     @Transactional
-    fun createProject(slug: String, name: String, description: String) {
-        val project = Project.create(name, description, slug)
+    fun createProject(slug: String, name: String, description: String, mdmId: Long) {
+        val project = Project.create(name, description, slug, mdmId, reservationService)
 
         eventSourceService.createEventStream(project.streamId)
         project.clearPendingEvents().forEach {

@@ -21,8 +21,8 @@ class ProjectController(
     fun getAll() = projectQueryService.findAll()
 
     @PostMapping
-    fun createNew(@RequestParam name: String, @RequestParam slug: String, @RequestParam description: String): ProjectEntity {
-        projectCommandService.createProject(slug, name, description)
+    fun createNew(@RequestParam name: String, @RequestParam slug: String, @RequestParam description: String, @RequestParam mdmId: Long): ProjectEntity {
+        projectCommandService.createProject(slug, name, description, mdmId)
         return projectQueryService.findBySlug(slug)
     }
 
