@@ -1,14 +1,13 @@
-package eu.wilkolek.eventdrivencrud.task.events
+package eu.wilkolek.eventdrivencrud.domain.events
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import eu.wilkolek.eventdrivencrud.es.DomainEvent
-import eu.wilkolek.eventdrivencrud.task.model.TaskEntity
 import java.time.OffsetDateTime
-import java.util.UUID
 
-class TaskCreatedEvent @JsonCreator constructor(
+class ProjectCreatedEvent @JsonCreator constructor(
+    @JsonProperty("streamId") val streamId: String,
     @JsonProperty("slug") val slug: String,
-    @JsonProperty("title") val title: String,
+    @JsonProperty("name") val name: String,
+    @JsonProperty("description") val description: String,
     @JsonProperty("createdAt") createdAt: OffsetDateTime = OffsetDateTime.now()
 ) : DomainEvent(createdAt)

@@ -1,8 +1,9 @@
 package eu.wilkolek.eventdrivencrud.project.services
 
+import eu.wilkolek.eventdrivencrud.domain.Project
 import eu.wilkolek.eventdrivencrud.es.EventSourceService
-import eu.wilkolek.eventdrivencrud.project.events.ProjectCreatedEvent
-import eu.wilkolek.eventdrivencrud.project.events.ProjectNameChangedEvent
+import eu.wilkolek.eventdrivencrud.domain.events.ProjectCreatedEvent
+import eu.wilkolek.eventdrivencrud.domain.events.ProjectNameChangedEvent
 import eu.wilkolek.eventdrivencrud.project.model.ProjectEntity
 import eu.wilkolek.eventdrivencrud.project.model.ProjectRepository
 import jakarta.transaction.Transactional
@@ -13,22 +14,27 @@ import java.util.*
 
 @Service
 class ProjectCommandService(
-    private val projectRepository: ProjectRepository,
     private val eventSourceService: EventSourceService,
 ) {
 
     @Transactional
     fun createProject(slug: String, name: String, description: String) {
-        //check rules or whatever
-        eventSourceService.storeEvent(ProjectCreatedEvent(slug, name, description))
+        val project = Project.create(name, description, slug)
+
+        eventSourceService.createEventStream(project.streamId)
+        project.clearPendingEvents().forEach {
+            eventSourceService.storeEvent(project.streamId, it)
+        }
     }
 
     @Transactional
     fun changeNameBySlug(slug: String, newName: String) {
         //check rules or whatever
-        val project = projectRepository.findBySlug(slug)
-        project.name = newName
-        eventSourceService.storeEvent(ProjectNameChangedEvent(project.slug, newName))
+        val project = Project.recreate(eventSourceService.getEvents(Project.streamId(slug)))
+        project.changeName(newName)
+        project.clearPendingEvents().forEach {
+            eventSourceService.storeEvent(project.streamId, it)
+        }
     }
 
 }

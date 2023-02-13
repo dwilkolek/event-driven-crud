@@ -1,13 +1,12 @@
-package eu.wilkolek.eventdrivencrud.task.events
+package eu.wilkolek.eventdrivencrud.domain.events
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import eu.wilkolek.eventdrivencrud.es.DomainEvent
-import eu.wilkolek.eventdrivencrud.task.model.TaskEntity
 import java.time.OffsetDateTime
 
-class TaskStatusChangedEvent @JsonCreator constructor(
+class TaskCreatedEvent @JsonCreator constructor(
+    @JsonProperty("streamId") val streamId: String,
     @JsonProperty("slug") val slug: String,
-    @JsonProperty("newStatus") val newStatus: TaskEntity.Status,
+    @JsonProperty("title") val title: String,
     @JsonProperty("createdAt") createdAt: OffsetDateTime = OffsetDateTime.now()
 ) : DomainEvent(createdAt)

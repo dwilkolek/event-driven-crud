@@ -1,11 +1,11 @@
-package eu.wilkolek.eventdrivencrud.es
+package eu.wilkolek.eventdrivencrud.domain.events
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import eu.wilkolek.eventdrivencrud.project.events.ProjectCreatedEvent
-import eu.wilkolek.eventdrivencrud.project.events.ProjectNameChangedEvent
-import eu.wilkolek.eventdrivencrud.task.events.TaskCreatedEvent
-import eu.wilkolek.eventdrivencrud.task.events.TaskStatusChangedEvent
+import eu.wilkolek.eventdrivencrud.domain.events.ProjectCreatedEvent
+import eu.wilkolek.eventdrivencrud.domain.events.ProjectNameChangedEvent
+import eu.wilkolek.eventdrivencrud.domain.events.TaskCreatedEvent
+import eu.wilkolek.eventdrivencrud.domain.events.TaskStatusChangedEvent
 import java.time.OffsetDateTime
 
 @JsonTypeInfo(

@@ -1,7 +1,7 @@
 package eu.wilkolek.eventdrivencrud.project.services
 
-import eu.wilkolek.eventdrivencrud.project.events.ProjectCreatedEvent
-import eu.wilkolek.eventdrivencrud.project.events.ProjectNameChangedEvent
+import eu.wilkolek.eventdrivencrud.domain.events.ProjectCreatedEvent
+import eu.wilkolek.eventdrivencrud.domain.events.ProjectNameChangedEvent
 import eu.wilkolek.eventdrivencrud.project.model.ProjectEntity
 import eu.wilkolek.eventdrivencrud.project.model.ProjectRepository
 import jakarta.transaction.Transactional

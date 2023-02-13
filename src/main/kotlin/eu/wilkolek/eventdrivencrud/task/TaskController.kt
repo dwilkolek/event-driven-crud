@@ -1,5 +1,6 @@
 package eu.wilkolek.eventdrivencrud.task
 
+import eu.wilkolek.eventdrivencrud.domain.Task
 import eu.wilkolek.eventdrivencrud.project.services.ProjectCommandService
 import eu.wilkolek.eventdrivencrud.project.services.ProjectQueryService
 import eu.wilkolek.eventdrivencrud.task.model.TaskEntity
@@ -46,6 +47,6 @@ class TaskController(private val taskCommandService: TaskCommandService, private
     }
 
     class UpdateTask {
-        val status: TaskEntity.Status? = null
+        val status: Task.Status? = null
     }
 }

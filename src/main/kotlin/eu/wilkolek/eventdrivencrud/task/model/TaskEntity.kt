@@ -1,6 +1,7 @@
 package eu.wilkolek.eventdrivencrud.task.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import eu.wilkolek.eventdrivencrud.domain.Task
 import eu.wilkolek.eventdrivencrud.project.model.ProjectEntity
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -24,10 +25,6 @@ class TaskEntity(val slug: String, val title: String) {
     @JsonIgnore
     var project: ProjectEntity? = null
 
-    var status: Status = Status.TODO
-
-    enum class Status {
-        TODO, IN_PROGRESS, DONE
-    }
+    var status: Task.Status = Task.Status.TODO
 
 }
