@@ -19,18 +19,13 @@ class TaskCommandService(
 
     @Transactional
     fun createTask(createTask: TaskController.CreateTask) {
-        val project = projectQueryService.findBySlug(slug = createTask.projectSlug!!)
-        val task = TaskEntity("${project.slug}-${project.tasks.size + 1}", createTask.title!!)
-        project.addTask(task)
-        taskRepository.save(task)
+        projectQueryService.findBySlug(slug = createTask.projectSlug!!) //check if project exists
         eventSourceService.storeEvent(TaskCreatedEvent(createTask.projectSlug!!, createTask.title!!))
     }
 
     @Transactional
     fun updateTask(slug: String, updateTask: TaskController.UpdateTask) {
-        val task = taskRepository.findBySlug(slug = slug)
-        task.status = updateTask.status!!
-
-        eventSourceService.storeEvent(TaskStatusChangedEvent(task.slug, updateTask.status!!))
+        taskRepository.findBySlug(slug = slug) //check if task exists
+        eventSourceService.storeEvent(TaskStatusChangedEvent(slug, updateTask.status!!))
     }
 }

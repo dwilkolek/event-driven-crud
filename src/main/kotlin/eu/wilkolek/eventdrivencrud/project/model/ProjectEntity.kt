@@ -13,13 +13,15 @@ import java.util.UUID
 @Entity
 @Table(name = "project")
 class ProjectEntity(
-    @Id
-    val id: UUID = UUID.randomUUID(),
     @NaturalId
     val slug: String,
     var name: String,
     val description: String,
 ) {
+
+
+    @Id
+    val id: UUID = UUID.randomUUID()
     fun addTask(task: TaskEntity) {
         tasks.add(task)
         task.project = this

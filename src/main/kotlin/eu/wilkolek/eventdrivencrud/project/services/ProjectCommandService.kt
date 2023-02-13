@@ -20,7 +20,6 @@ class ProjectCommandService(
     @Transactional
     fun createProject(slug: String, name: String, description: String) {
         //check rules or whatever
-        projectRepository.save(ProjectEntity(UUID.randomUUID(), slug, name, description))
         eventSourceService.storeEvent(ProjectCreatedEvent(slug, name, description))
     }
 
