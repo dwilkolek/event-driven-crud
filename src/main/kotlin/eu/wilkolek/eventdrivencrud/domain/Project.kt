@@ -18,16 +18,16 @@ class Project private constructor() : Aggregate("PROJECT"){
 
     fun changeName(newName: String) {
         //can we change name?
-        addAndApply(ProjectNameChangedEvent(streamId, slug, newName))
+        addAndApply(ProjectNameChangedEvent(slug, newName))
     }
 
     fun createTask(title: String) {
-        addAndApply(TaskCreatedEvent(streamId, "$slug-${tasks.size+1}", title))
+        addAndApply(TaskCreatedEvent("$slug-${tasks.size+1}", title))
     }
 
     fun changeTaskStatus(taskSlug: String, newStatus: Task.Status) {
         checkNotNull(tasks.find { it.slug == taskSlug })
-        addAndApply(TaskStatusChangedEvent(streamId, taskSlug, newStatus))
+        addAndApply(TaskStatusChangedEvent(taskSlug, newStatus))
     }
 
     override fun apply(event: DomainEvent) {
@@ -63,7 +63,7 @@ class Project private constructor() : Aggregate("PROJECT"){
             slug: String
         ): Project {
             val project = Project()
-            project.addAndApply(ProjectCreatedEvent(streamId(slug), slug, name, description))
+            project.addAndApply(ProjectCreatedEvent(slug, name, description))
             return project
         }
 

@@ -24,7 +24,7 @@ class TaskCommandService(
 
     @Transactional
     fun updateTask(slug: String, updateTask: TaskController.UpdateTask) {
-        val project = Project.recreate(eventSourceService.getEvents(Project.streamId(slug)))
+        val project = Project.recreate(eventSourceService.getEvents(Project.streamId(slug.split("-")[0])))
         project.changeTaskStatus(slug, updateTask.status!!)
 
         project.clearPendingEvents().forEach {
