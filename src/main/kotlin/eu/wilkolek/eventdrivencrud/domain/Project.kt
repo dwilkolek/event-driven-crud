@@ -21,7 +21,7 @@ class Project private constructor() : Aggregate("PROJECT"){
         addAndApply(ProjectNameChangedEvent(streamId, slug, newName))
     }
 
-    fun addTask(title: String) {
+    fun createTask(title: String) {
         addAndApply(TaskCreatedEvent(streamId, "$slug-${tasks.size+1}", title))
     }
 

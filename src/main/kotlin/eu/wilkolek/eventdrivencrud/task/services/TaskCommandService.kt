@@ -2,12 +2,7 @@ package eu.wilkolek.eventdrivencrud.task.services
 
 import eu.wilkolek.eventdrivencrud.domain.Project
 import eu.wilkolek.eventdrivencrud.es.EventSourceService
-import eu.wilkolek.eventdrivencrud.project.services.ProjectQueryService
 import eu.wilkolek.eventdrivencrud.task.TaskController
-import eu.wilkolek.eventdrivencrud.domain.events.TaskCreatedEvent
-import eu.wilkolek.eventdrivencrud.domain.events.TaskStatusChangedEvent
-import eu.wilkolek.eventdrivencrud.task.model.TaskEntity
-import eu.wilkolek.eventdrivencrud.task.model.TaskRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,7 +14,7 @@ class TaskCommandService(
     @Transactional
     fun createTask(createTask: TaskController.CreateTask) {
         val project = Project.recreate(eventSourceService.getEvents(Project.streamId(createTask.projectSlug!!)))
-        project.addTask(createTask.title!!)
+        project.createTask(createTask.title!!)
 
         project.clearPendingEvents().forEach {
             eventSourceService.storeEvent(project.streamId, it)
