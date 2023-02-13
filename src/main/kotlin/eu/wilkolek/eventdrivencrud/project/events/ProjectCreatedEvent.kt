@@ -7,11 +7,8 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 class ProjectCreatedEvent @JsonCreator constructor(
-    @JsonProperty("projectUuid") val projectUuid: UUID,
     @JsonProperty("slug") val slug: String,
     @JsonProperty("name") val name: String,
     @JsonProperty("description") val description: String,
     @JsonProperty("createdAt") createdAt: OffsetDateTime = OffsetDateTime.now()
-) : DomainEvent(createdAt) {
-
-}
+) : DomainEvent(createdAt)

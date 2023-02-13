@@ -1,6 +1,7 @@
 package eu.wilkolek.eventdrivencrud.project.model
 
-import eu.wilkolek.eventdrivencrud.task.TaskEntity
+import com.fasterxml.jackson.annotation.JsonIgnore
+import eu.wilkolek.eventdrivencrud.task.model.TaskEntity
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
@@ -19,6 +20,10 @@ class ProjectEntity(
     var name: String,
     val description: String,
 ) {
+    fun addTask(task: TaskEntity) {
+        tasks.add(task)
+        task.project = this
+    }
 
 
     @Version
@@ -27,7 +32,8 @@ class ProjectEntity(
     val nextTaskId = 0
 
     @OneToMany(mappedBy = "project")
-    val tasks: List<TaskEntity> = mutableListOf()
+    @JsonIgnore
+    val tasks: MutableList<TaskEntity> = mutableListOf()
 
 
 }

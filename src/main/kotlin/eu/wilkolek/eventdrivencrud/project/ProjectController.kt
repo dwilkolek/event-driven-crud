@@ -26,8 +26,7 @@ class ProjectController(
         return projectQueryService.findBySlug(slug)
     }
 
-    @PostMapping
-    @RequestMapping("/{slug}")
+    @PostMapping("/{slug}")
     fun changeName(@PathVariable slug: String, @RequestParam name: String): ProjectEntity {
         projectCommandService.changeNameBySlug(slug, name)
         return projectQueryService.findBySlug(slug)

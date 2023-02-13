@@ -9,3 +9,4 @@ class EventDrivenCrudApplication
 fun main(args: Array<String>) {
 	runApplication<EventDrivenCrudApplication>(*args)
 }
+

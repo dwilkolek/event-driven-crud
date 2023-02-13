@@ -18,6 +18,3 @@ class EventEntity(domainEvent: DomainEvent) {
     @JdbcTypeCode(SqlTypes.JSON)
     val data: DomainEvent = domainEvent
 }
-
-
-
