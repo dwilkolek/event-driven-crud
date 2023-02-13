@@ -8,5 +8,6 @@ class ProjectCreatedEvent @JsonCreator constructor(
     @JsonProperty("slug") val slug: String,
     @JsonProperty("name") val name: String,
     @JsonProperty("description") val description: String,
+    @JsonProperty("mdmId") val mdmId: Long,
     @JsonProperty("createdAt") createdAt: OffsetDateTime = OffsetDateTime.now()
 ) : DomainEvent(createdAt)

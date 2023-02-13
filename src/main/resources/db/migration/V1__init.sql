@@ -21,3 +21,7 @@ CREATE TABLE task (
     title text NOT NULL,
     status varchar(100)
 );
+
+CREATE TABLE reservation (
+    id text NOT NULL UNIQUE
+);
